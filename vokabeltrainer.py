@@ -6,7 +6,7 @@ FILE_VOCABLES = "vokabeln.json"
 FILE_SCORES = "scores.json"
 
 
-def lade_vokabeln():
+def load_vocables():
     if not os.path.exists(FILE_VOCABLES):
         return []
     with open(FILE_VOCABLES, "r", encoding="utf-8") as f:
