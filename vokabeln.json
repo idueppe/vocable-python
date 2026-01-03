@@ -41,7 +41,7 @@
     },
     {
         "id": 9,
-        "de": "zelt",
+        "de": "Zelt",
         "en": "tent"
     },
     {
@@ -81,7 +81,52 @@
     },
     {
         "id": 17,
-        "de": "taschenlampe",
+        "de": "Taschenlampe",
         "en": "torch"
+    },
+    {
+        "id": 18,
+        "de": "hochsehen, aufschauen",
+        "en": "to look up"
+    },
+    {
+        "id": 19,
+        "de": "schlafen",
+        "en": "to be asleep"
+    },
+    {
+        "id": 20,
+        "de": "etwas aufhängen",
+        "en": "hang up, hung"
+    },
+    {
+        "id": 21,
+        "de": "sodass, damit",
+        "en": "so that"
+    },
+    {
+        "id": 22,
+        "de": "wild",
+        "en": "wild"
+    },
+    {
+        "id": 23,
+        "de": "immer wieder",
+        "en": "again and again"
+    },
+    {
+        "id": 24,
+        "de": "etwas ausschalten",
+        "en": "turn off"
+    },
+    {
+        "id": 25,
+        "de": "mein",
+        "en": "own"
+    },
+    {
+        "id": 26,
+        "de": "Erinnerung",
+        "en": "memory"
     }
 ]
