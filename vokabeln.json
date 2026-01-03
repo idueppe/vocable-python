@@ -1,10 +1,17 @@
 [
     {
+        "id": 1,
         "de": "Hund",
         "en": "dog"
     },
     {
+        "id": 2,
         "de": "Schlange stehen, sich anstellen",
         "en": "to queue"
+    },
+    {
+        "id": 3,
+        "de": "Türklingel, Türglocke",
+        "en": "doorbell"
     }
 ]
