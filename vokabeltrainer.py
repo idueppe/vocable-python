@@ -17,18 +17,40 @@ def speichere_vokabeln(vokabeln):
     with open(DATEI,"w", encoding="utf-8") as f:
         json.dump(vokabeln,f, ensure_ascii=False, indent=4)
 
+
 def vokabeln_hinzufuegen(vokabeln):
     deutsch = input("deutsch: ").strip()
     english = input("english: ").strip()
     vokabeln.append({"de":deutsch,"en":english})
     speichere_vokabeln(vokabeln)
     print("Vokabeln hinzugefügt!\n")
-4
+
 
 def show_vocables(vokabeln):
     for v in vokabeln:
         print(f"{v['de']} - {v['en']}")
     print("\n")
+
+def quiz(vokabeln):
+    if not vokabeln:
+        print("keine vokabeln vorhanden.\n")
+        return
+
+    frage = random.choice(vokabeln)
+    richtung = random.choice(["de_en", "en_de"])
+
+    if richtung == "de_en":
+        antwort = input(f"Was heißt '{frage['de']} auf Englisch? ").strip().lower()
+        if antwort == frage['en'].lower():
+            print("Richtig!\n")
+        else:
+            print(f"x Falsch!. Richtige Antwort: {frage['en']}")
+    else:
+        antwort = input(f"Was heißt '{frage['en']} auf Deutsch? ").strip().lower()
+        if antwort == frage['de'].lower():
+            print("Richtig!\n")
+        else:
+            print(f"x Falsch!. Richtige Antwort: {frage['de']}")
 
 
 def menue():
@@ -45,6 +67,8 @@ def menue():
 
         if auswahl == "1":
             vokabeln_hinzufuegen(vokabeln)
+        elif auswahl == "2":
+            quiz(vokabeln)
         elif auswahl == "3":
             show_vocables(vokabeln)
         elif auswahl == "4":
