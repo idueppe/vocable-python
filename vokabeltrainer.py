@@ -14,7 +14,7 @@ def lade_vokabeln():
 
 
 def speichere_vokabeln(vokabeln):
-    with open(DATEI,"r", encoding="utf-8") as f:
+    with open(DATEI,"w", encoding="utf-8") as f:
         json.dump(vokabeln,f, ensure_ascii=False, indent=4)
 
 def vokabeln_hinzufuegen(vokabeln):
@@ -23,7 +23,7 @@ def vokabeln_hinzufuegen(vokabeln):
     vokabeln.append({"de":deutsch,"en":english})
     speichere_vokabeln(vokabeln)
     print("Vokabeln hinzugefügt!\n")
-
+4
 
 def show_vocables(vokabeln):
     for v in vokabeln:
