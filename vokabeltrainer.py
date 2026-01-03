@@ -2,18 +2,19 @@ import json
 import random
 import os
 
-DATEI = "vokabeln.json"
+FILE_VOCABLES = "vokabeln.json"
+FILE_SCORES = "scores.json"
 
 
 def lade_vokabeln():
-    if not os.path.exists(DATEI):
+    if not os.path.exists(FILE_VOCABLES):
         return []
-    with open(DATEI, "r", encoding="utf-8") as f:
+    with open(FILE_VOCABLES, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def speichere_vokabeln(vokabeln):
-    with open(DATEI, "w", encoding="utf-8") as f:
+    with open(FILE_VOCABLES, "w", encoding="utf-8") as f:
         json.dump(vokabeln, f, ensure_ascii=False, indent=4)
 
 
