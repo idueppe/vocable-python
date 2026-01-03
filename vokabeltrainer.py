@@ -1,7 +1,6 @@
 import json
 import random
 import os
-from typing import Any
 
 DATEI = "vokabeln.json"
 
@@ -9,19 +8,26 @@ DATEI = "vokabeln.json"
 def lade_vokabeln():
     if not os.path.exists(DATEI):
         return []
-    with open(DATEI,"r", encoding="utf-8") as f:
+    with open(DATEI, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def speichere_vokabeln(vokabeln):
-    with open(DATEI,"w", encoding="utf-8") as f:
-        json.dump(vokabeln,f, ensure_ascii=False, indent=4)
+    with open(DATEI, "w", encoding="utf-8") as f:
+        json.dump(vokabeln, f, ensure_ascii=False, indent=4)
 
 
 def vokabeln_hinzufuegen(vokabeln):
     deutsch = input("deutsch: ").strip()
     english = input("english: ").strip()
-    vokabeln.append({"de":deutsch,"en":english})
+
+    next_id = 1 if not vokabeln else max(v["id"] for v in vokabeln) + 1
+
+    vokabeln.append({
+        "id": next_id,
+        "de": deutsch,
+        "en": english
+    })
     speichere_vokabeln(vokabeln)
     print("Vokabeln hinzugefügt!\n")
 
@@ -30,6 +36,7 @@ def show_vocables(vokabeln):
     for v in vokabeln:
         print(f"{v['de']} - {v['en']}")
     print("\n")
+
 
 def quiz(vokabeln):
     if not vokabeln:
@@ -58,12 +65,12 @@ def menue():
 
     while True:
         print("----- Vokabeltrainer -----")
-        print("1) vokabeln hinzfügen")
+        print("1) Vokabeln hinzufügen")
         print("2) Quiz starten")
         print("3) Alle Vokabeln anzeigen")
         print("4) beenden")
 
-        auswahl =input("auswahl: ").strip()
+        auswahl = input("Auswahl: ").strip()
 
         if auswahl == "1":
             vokabeln_hinzufuegen(vokabeln)
