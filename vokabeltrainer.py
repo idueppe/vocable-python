@@ -1,67 +1,115 @@
 import json
 import random
 import os
+from datetime import datetime
 
-DATEI = "vokabeln.json"
+FILE_VOCABLES = "vokabeln.json"
+FILE_SCORES = "scores.json"
 
 
-def lade_vokabeln():
-    if not os.path.exists(DATEI):
+def load_vocables():
+    if not os.path.exists(FILE_VOCABLES):
         return []
-    with open(DATEI, "r", encoding="utf-8") as f:
+    with open(FILE_VOCABLES, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-def speichere_vokabeln(vokabeln):
-    with open(DATEI, "w", encoding="utf-8") as f:
+def save_vocables(vokabeln):
+    with open(FILE_VOCABLES, "w", encoding="utf-8") as f:
         json.dump(vokabeln, f, ensure_ascii=False, indent=4)
 
 
-def vokabeln_hinzufuegen(vokabeln):
-    deutsch = input("deutsch: ").strip()
+def load_scores():
+    if not os.path.exists(FILE_SCORES):
+        return {}
+    with open(FILE_SCORES, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def save_scores(scores):
+    with open(FILE_SCORES, "w", encoding="utf-8") as f:
+        json.dump(scores, f, ensure_ascii=False, indent=4)
+
+
+def now():
+    return datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+
+
+def init_scores(scores, vocable_id):
+    """If scores is empty, initialize it with the current date and time."""
+    if str(vocable_id) not in scores:
+        scores[str(vocable_id)] = {
+            "score": 0,
+            "last_practiced": None,
+            "last_correct": None
+        }
+
+
+def add_vocables(vocables, scores):
+    german = input("deutsch: ").strip()
     english = input("english: ").strip()
 
-    next_id = 1 if not vokabeln else max(v["id"] for v in vokabeln) + 1
+    next_id = 1 if not vocables else max(v["id"] for v in vocables) + 1
 
-    vokabeln.append({
+    vocables.append({
         "id": next_id,
-        "de": deutsch,
+        "de": german,
         "en": english
     })
-    speichere_vokabeln(vokabeln)
-    print("Vokabeln hinzugefügt!\n")
+
+    init_scores(scores, next_id)
+
+    save_vocables(vocables)
+    save_scores(scores)
+
+    print("✓ Vokabeln hinzugefügt!\n")
 
 
-def show_vocables(vokabeln):
-    for v in vokabeln:
-        print(f"{v['de']} - {v['en']}")
-    print("\n")
+def show_vocables(vocables, scores):
+    for v in vocables:
+        s = scores.get(str(v["id"]), {})
+        print(
+            f"{v['de']} – {v['en']} "
+            f"| Score: {s.get('score', 0)} "
+            f"| Geübt: {s.get('last_practiced')} "
+            f"| Richtig: {s.get('last_correct')}"
+        )
+    print()
 
 
-def quiz(vokabeln):
-    if not vokabeln:
-        print("keine vokabeln vorhanden.\n")
+def quiz(vocables, scores):
+    if not vocables:
+        print("Keine Vokabeln vorhanden.\n")
         return
 
-    frage = random.choice(vokabeln)
-    richtung = random.choice(["de_en", "en_de"])
+    question = random.choice(vocables)
+    vocable_id = str(question["id"])
 
-    if richtung == "de_en":
-        antwort = input(f"Was heißt '{frage['de']} auf Englisch? ").strip().lower()
-        if antwort == frage['en'].lower():
-            print("Richtig!\n")
-        else:
-            print(f"x Falsch!. Richtige Antwort: {frage['en']}")
+    init_scores(scores, vocable_id)
+    direction = random.choice(["de_en", "en_de"])
+
+    if direction == "de_en":
+        response = input(f"Was heißt '{question['de']}' auf Englisch? ").strip()
+        correct = question["en"]
     else:
-        antwort = input(f"Was heißt '{frage['en']} auf Deutsch? ").strip().lower()
-        if antwort == frage['de'].lower():
-            print("Richtig!\n")
-        else:
-            print(f"x Falsch!. Richtige Antwort: {frage['de']}")
+        response = input(f"Was heißt '{question['en']}' auf Deutsch? ").strip()
+        correct = question["de"]
+
+    scores[vocable_id]["last_practiced"] = now()
+
+    if response == correct:
+        print("✓ Richtig!\n")
+        scores[vocable_id]["score"] += 1
+        scores[vocable_id]["last_correct"] = now()
+    else:
+        print(f"✗ Falsch! Richtige Antwort: {correct}\n")
+
+    save_scores(scores)
 
 
-def menue():
-    vokabeln = lade_vokabeln()
+def menu():
+    vocables = load_vocables()
+    scores = load_scores()
 
     while True:
         print("----- Vokabeltrainer -----")
@@ -73,11 +121,11 @@ def menue():
         auswahl = input("Auswahl: ").strip()
 
         if auswahl == "1":
-            vokabeln_hinzufuegen(vokabeln)
+            add_vocables(vocables, scores)
         elif auswahl == "2":
-            quiz(vokabeln)
+            quiz(vocables, scores)
         elif auswahl == "3":
-            show_vocables(vokabeln)
+            show_vocables(vocables, scores)
         elif auswahl == "4":
             print("Bis Bald!")
             break
@@ -86,4 +134,4 @@ def menue():
 
 
 if __name__ == "__main__":
-    menue()
+    menu()
