@@ -58,12 +58,12 @@ def menue():
 
     while True:
         print("----- Vokabeltrainer -----")
-        print("1) vokabeln hinzfügen")
+        print("1) Vokabeln hinzufügen")
         print("2) Quiz starten")
         print("3) Alle Vokabeln anzeigen")
         print("4) beenden")
 
-        auswahl =input("auswahl: ").strip()
+        auswahl = input("Auswahl: ").strip()
 
         if auswahl == "1":
             vokabeln_hinzufuegen(vokabeln)
