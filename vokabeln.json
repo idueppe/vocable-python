@@ -13,5 +13,75 @@
         "id": 3,
         "de": "Türklingel, Türglocke",
         "en": "doorbell"
+    },
+    {
+        "id": 4,
+        "de": "die namen aufrufen",
+        "en": "call out the names"
+    },
+    {
+        "id": 5,
+        "de": "Artikel",
+        "en": "article"
+    },
+    {
+        "id": 6,
+        "de": "Pfannkuchen",
+        "en": "pancake"
+    },
+    {
+        "id": 7,
+        "de": "Vor,außerhalb",
+        "en": "outside"
+    },
+    {
+        "id": 8,
+        "de": "neben",
+        "en": "next to"
+    },
+    {
+        "id": 9,
+        "de": "zelt",
+        "en": "tent"
+    },
+    {
+        "id": 10,
+        "de": "felsig,steinig",
+        "en": "rocky"
+    },
+    {
+        "id": 11,
+        "de": "hoch",
+        "en": "high"
+    },
+    {
+        "id": 12,
+        "de": "spitze",
+        "en": "top"
+    },
+    {
+        "id": 13,
+        "de": "schatten",
+        "en": "shadow"
+    },
+    {
+        "id": 14,
+        "de": "über",
+        "en": "over"
+    },
+    {
+        "id": 15,
+        "de": "Feuer",
+        "en": "fire"
+    },
+    {
+        "id": 16,
+        "de": "weich",
+        "en": "soft"
+    },
+    {
+        "id": 17,
+        "de": "taschenlampe",
+        "en": "torch"
     }
 ]
