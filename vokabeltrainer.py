@@ -13,12 +13,12 @@ def load_vocables():
         return json.load(f)
 
 
-def speichere_vokabeln(vokabeln):
+def save_vocables(vokabeln):
     with open(FILE_VOCABLES, "w", encoding="utf-8") as f:
         json.dump(vokabeln, f, ensure_ascii=False, indent=4)
 
 
-def vokabeln_hinzufuegen(vokabeln):
+def add_vocables(vokabeln):
     deutsch = input("deutsch: ").strip()
     english = input("english: ").strip()
 
@@ -29,7 +29,7 @@ def vokabeln_hinzufuegen(vokabeln):
         "de": deutsch,
         "en": english
     })
-    speichere_vokabeln(vokabeln)
+    save_vocables(vokabeln)
     print("Vokabeln hinzugefügt!\n")
 
 
@@ -61,8 +61,8 @@ def quiz(vokabeln):
             print(f"x Falsch!. Richtige Antwort: {frage['de']}")
 
 
-def menue():
-    vokabeln = lade_vokabeln()
+def menu():
+    vokabeln = load_vocables()
 
     while True:
         print("----- Vokabeltrainer -----")
@@ -74,7 +74,7 @@ def menue():
         auswahl = input("Auswahl: ").strip()
 
         if auswahl == "1":
-            vokabeln_hinzufuegen(vokabeln)
+            add_vocables(vokabeln)
         elif auswahl == "2":
             quiz(vokabeln)
         elif auswahl == "3":
@@ -87,4 +87,4 @@ def menue():
 
 
 if __name__ == "__main__":
-    menue()
+    menu()
