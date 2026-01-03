@@ -46,8 +46,8 @@ def init_scores(scores, vocable_id):
 
 
 def add_vocables(vocables, scores):
-    german = input("deutsch: ").strip()
     english = input("english: ").strip()
+    german = input("deutsch: ").strip()
 
     next_id = 1 if not vocables else max(v["id"] for v in vocables) + 1
 
