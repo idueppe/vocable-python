@@ -12,15 +12,27 @@ A simple command-line vocabulary trainer for learning German-English vocabulary 
 
 ## Requirements
 
-- Python 3.x
+- Python 3.7+
 
-## Usage
+## Installation
 
-Run the application:
+**Option 1: Install as a package (recommended)**
+
+```bash
+# Install in development mode
+pip install -e .
+
+# Run from anywhere
+vokabeltrainer
+```
+
+**Option 2: Run directly**
 
 ```bash
 python3 vokabeltrainer.py
 ```
+
+## Usage
 
 ### Menu Options
 
