@@ -20,7 +20,14 @@ def speichere_vokabeln(vokabeln):
 def vokabeln_hinzufuegen(vokabeln):
     deutsch = input("deutsch: ").strip()
     english = input("english: ").strip()
-    vokabeln.append({"de":deutsch,"en":english})
+
+    next_id = 1 if not vokabeln else max(v["id"] for v in vokabeln) + 1
+
+    vokabeln.append({
+        "id": next_id,
+        "de": deutsch,
+        "en": english
+    })
     speichere_vokabeln(vokabeln)
     print("Vokabeln hinzugefügt!\n")
 
