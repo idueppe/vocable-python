@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vokabeltrainer"
+version = "1.0.0"
+description = "A German-English vocabulary trainer"
+authors = [{name = "Clemens"}]
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+vokabeltrainer = "vokabeltrainer:menu"
+
+[project.urls]
+"Homepage" = "https://github.com/idueppe/vocable-python"
+"Bug Tracker" = "https://github.com/idueppe/vocable-python/issues"
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+
+[tool.ruff]
+line-length = 88
+target-version = "py37"
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
