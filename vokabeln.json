@@ -182,7 +182,7 @@
     {
         "id": 37,
         "de": "ziehen",
-        "en": "pull"
+        "en": "to pull"
     },
     {
         "id": 38,
@@ -196,8 +196,8 @@
     },
     {
         "id": 40,
-        "de": "jn.umarmen",
-        "en": "to give a hug"
+        "de": "jn. umarmen",
+        "en": "to give sb. a hug"
     },
     {
         "id": 41,
@@ -341,7 +341,7 @@
     },
     {
         "id": 69,
-        "de": "sich fertzig fertig machen",
+        "de": "sich fertig machen für",
         "en": "to get ready for"
     },
     {
@@ -376,18 +376,18 @@
     },
     {
         "id": 76,
-        "de": "as big as",
+        "de": "vorankommen, zurechtkommen",
         "en": "to get on"
     },
     {
         "id": 77,
-        "de": "bigger than",
-        "en": "so groß wie"
+        "en": "as big as",
+        "de": "so groß wie"
     },
     {
         "id": 78,
         "de": "größer als",
         "en": "bigger than"
-    },
+    }
 
 ]
