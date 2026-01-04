@@ -196,12 +196,12 @@
     },
     {
         "id": 40,
-        "de": "jn. umarmen",
+        "de": "jn.umarmen",
         "en": "to give a hug"
     },
     {
         "id": 41,
-        "de": "meinen, sagen wollen",
+        "de": "meine, sagen wollen",
         "en": "to mean"
     },
     {
@@ -231,7 +231,7 @@
     },
     {
         "id": 47,
-        "de": "schockiert, entsetzt",
+        "de": "schokiert, entsetzt",
         "en": "shocked"
     },
     {
@@ -246,17 +246,17 @@
     },
     {
         "id": 50,
-        "de": "bei Papa",
+        "de": "bei Papap",
         "en": "at Dad's"
     },
     {
         "id": 51,
         "de": "Wohnung",
-        "en": "apartment"
+        "en": "arpartment"
     },
     {
         "id": 52,
-        "de": "Bildschirm",
+        "de": "Bildschrim",
         "en": "screen"
     },
     {
@@ -297,6 +297,97 @@
     {
         "id": 60,
         "de": "Ich werde",
-        "en": "I'm going to"
-    }
+        "en": "i'm going to"
+    },
+    {
+        "id": 61,
+        "de": "von",
+        "en": "by"
+    },
+    {
+        "id": 62,
+        "de": "nervös",
+        "en": "nervous"
+    },
+    {
+        "id": 63,
+        "de": "ein bisschen",
+        "en": "a bit"
+    },
+    {
+        "id": 64,
+        "de": "Seite",
+        "en": "side"
+    },
+    {
+        "id": 65,
+        "de": "ein paar",
+        "en": "a few"
+    },
+    {
+        "id": 66,
+        "de": "Gegenwart",
+        "en": "present"
+    },
+    {
+        "id": 67,
+        "de": "Zukunft",
+        "en": "future"
+    },
+    {
+        "id": 68,
+        "de": "Dialog",
+        "en": "dialogue"
+    },
+    {
+        "id": 69,
+        "de": "sich fertzig fertig machen",
+        "en": "to get ready for"
+    },
+    {
+        "id": 70,
+        "de": "meiner",
+        "en": "mine"
+    },
+    {
+        "id": 71,
+        "de": "Arbeitsblatt",
+        "en": "Worksheet"
+    },
+    {
+        "id": 72,
+        "de": "Längste",
+        "en": "longest"
+    },
+    {
+        "id": 73,
+        "de": "Beschriftung",
+        "en": "to label"
+    },
+    {
+        "id": 74,
+        "de": "Beschriftung",
+        "en": "label"
+    },
+    {
+        "id": 75,
+        "de": "groß",
+        "en": "large"
+    },
+    {
+        "id": 76,
+        "de": "as big as",
+        "en": "to get on"
+    },
+    {
+        "id": 77,
+        "de": "bigger than",
+        "en": "so groß wie"
+    },
+    {
+        "id": 78,
+        "de": "größer als",
+        "en": "bigger than"
+    },
+
 ]
