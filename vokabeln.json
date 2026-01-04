@@ -388,6 +388,110 @@
         "id": 78,
         "de": "größer als",
         "en": "bigger than"
+    },
+    {
+        "id": 79,
+        "de": "anrufen",
+        "en": "to call"
+    },
+    {
+        "id": 80,
+        "de": "tanzen",
+        "en": "to dance"
+    },
+    {
+        "id": 81,
+        "de": "kämpfen",
+        "en": "to fihgt"
+    },
+    {
+        "id": 82,
+        "de": "helfen",
+        "en": "to help"
+    },
+    {
+        "id": 83,
+        "de": "zuhören",
+        "en": "to listen"
+    },
+    {
+        "id": 84,
+        "de": "lesen",
+        "en": "to read"
+    },
+    {
+        "id": 85,
+        "de": "Anrufer",
+        "en": "caller"
+    },
+    {
+        "id": 86,
+        "de": "Tänzer",
+        "en": "dancer"
+    },
+    {
+        "id": 87,
+        "de": "Kämpfer",
+        "en": "fighter"
+    },
+    {
+        "id": 88,
+        "de": "Zuhörer",
+        "en": "listener"
+    },
+    {
+        "id": 89,
+        "de": "Leser",
+        "en": "reader"
+    },
+    {
+        "id": 90,
+        "de": "laufen",
+        "en": "to run"
+    },
+    {
+        "id": 91,
+        "de": "einkaufen",
+        "en": "to shop"
+    },
+    {
+        "id": 92,
+        "de": "singen",
+        "en": "to sing"
+    },
+    {
+        "id": 93,
+        "de": "sprechen, reden",
+        "en": "to speak"
+    },
+    {
+        "id": 94,
+        "de": "arbeiten",
+        "en": "to work"
+    },
+    {
+        "id": 95,
+        "de": "Läufer",
+        "en": "runner"
+    },
+    {
+        "id": 96,
+        "de": "Einkäufer",
+        "en": "shopper"
+    },
+    {
+        "id": 97,
+        "de": "Sänger",
+        "en": "singer"
+    },
+    {
+        "id": 98,
+        "de": "Sprecher, Redner",
+        "en": "speaker"
+    },
+    {
+        "id": 99,
+        "de": "Arbeiter",
+        "en": "worker"
     }
-
 ]
