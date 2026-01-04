@@ -493,5 +493,115 @@
         "id": 99,
         "de": "Arbeiter",
         "en": "worker"
+    },
+    {
+        "id": 100,
+        "de": "kaufen",
+        "en": "to buy"
+    },
+    {
+        "id": 101,
+        "de": "gekauft",
+        "en": "bought"
+    },
+    {
+        "id": 102,
+        "de": "trinken",
+        "en": "to drink"
+    },
+    {
+        "id": 103,
+        "de": "getrunken",
+        "en": "drank"
+    },
+    {
+        "id": 104,
+        "de": "essen",
+        "en": "to eat"
+    },
+    {
+        "id": 105,
+        "de": "gegessen",
+        "en": "ate"
+    },
+    {
+        "id": 106,
+        "de": "füttern",
+        "en": "to feed"
+    },
+    {
+        "id": 107,
+        "de": "gefüttert",
+        "en": "fed"
+    },
+    {
+        "id": 108,
+        "de": "vergessen",
+        "en": "forget"
+    },
+    {
+        "id": 109,
+        "de": "vergessen haben",
+        "en": "forgot"
+    },
+    {
+        "id": 110,
+        "de": "Rad Fahren",
+        "en": "to ride"
+    },
+    {
+        "id": 111,
+        "de": "Rad gefahren",
+        "en": "rode"
+    },
+    {
+        "id": 112,
+        "de": "verkaufen",
+        "en": "to sell"
+    },
+    {
+        "id": 113,
+        "de": "verkauft",
+        "en": "to sold"
+    },
+    {
+        "id": 114,
+        "de": "sprechen",
+        "en": "to speak"
+    },
+    {
+        "id": 115,
+        "de": "gesprochen",
+        "en": "spoke"
+    },
+    {
+        "id": 116,
+        "de": "verstehen",
+        "en": "to understand"
+    },
+    {
+        "id": 117,
+        "de": "verstanden",
+        "en": "understood"
+    },
+    {
+        "id": 118,
+        "de": "aufwachen",
+        "en": "to wake up"
+    },
+    {
+        "id": 119,
+        "de": "aufgewacht",
+        "en": "woke up"
+    },
+    {
+        "id": 120,
+        "de": "tragen",
+        "en": "to wear"
+    },
+    {
+        "id": 121,
+        "de": "getragen",
+        "en": "wore"
     }
 ]
