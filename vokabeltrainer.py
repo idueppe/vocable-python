@@ -46,23 +46,35 @@ def init_scores(scores, vocable_id):
 
 
 def add_vocables(vocables, scores):
-    english = input("english: ").strip()
-    german = input("deutsch: ").strip()
+    print("Vokabeln hinzufügen (leere Eingabe bei 'english' zum Beenden)\n")
 
-    next_id = 1 if not vocables else max(v["id"] for v in vocables) + 1
+    while True:
+        english = input("english: ").strip()
 
-    vocables.append({
-        "id": next_id,
-        "de": german,
-        "en": english
-    })
+        if not english:
+            print("Vokabeln hinzufügen beendet.\n")
+            break
 
-    init_scores(scores, next_id)
+        german = input("deutsch: ").strip()
 
-    save_vocables(vocables)
-    save_scores(scores)
+        if not german:
+            print("Vokabeln hinzufügen beendet.\n")
+            break
 
-    print("✓ Vokabeln hinzugefügt!\n")
+        next_id = 1 if not vocables else max(v["id"] for v in vocables) + 1
+
+        vocables.append({
+            "id": next_id,
+            "de": german,
+            "en": english
+        })
+
+        init_scores(scores, next_id)
+
+        save_vocables(vocables)
+        save_scores(scores)
+
+        print("✓ Vokabeln hinzugefügt!\n")
 
 
 def show_vocables(vocables, scores):
