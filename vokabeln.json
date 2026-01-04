@@ -603,5 +603,15 @@
         "id": 121,
         "de": "getragen",
         "en": "wore"
+    },
+    {
+        "id": 122,
+        "de": "jetzt gerade",
+        "en": "right now"
+    },
+    {
+        "id": 123,
+        "de": "bestellen",
+        "en": "order"
     }
 ]
