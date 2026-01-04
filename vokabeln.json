@@ -196,12 +196,12 @@
     },
     {
         "id": 40,
-        "de": "jn.umarmen",
+        "de": "jn. umarmen",
         "en": "to give a hug"
     },
     {
         "id": 41,
-        "de": "meine, sagen wollen",
+        "de": "meinen, sagen wollen",
         "en": "to mean"
     },
     {
@@ -231,7 +231,7 @@
     },
     {
         "id": 47,
-        "de": "schokiert, entsetzt",
+        "de": "schockiert, entsetzt",
         "en": "shocked"
     },
     {
@@ -243,5 +243,60 @@
         "id": 49,
         "de": "klettern",
         "en": "to climb"
+    },
+    {
+        "id": 50,
+        "de": "bei Papa",
+        "en": "at Dad's"
+    },
+    {
+        "id": 51,
+        "de": "Wohnung",
+        "en": "apartment"
+    },
+    {
+        "id": 52,
+        "de": "Bildschirm",
+        "en": "screen"
+    },
+    {
+        "id": 53,
+        "de": "Pommes",
+        "en": "fries"
+    },
+    {
+        "id": 54,
+        "de": "das Geschirr abwaschen, spülen",
+        "en": "wash the dishes"
+    },
+    {
+        "id": 55,
+        "de": "Jahrhundert",
+        "en": "century"
+    },
+    {
+        "id": 56,
+        "de": "landen",
+        "en": "to land"
+    },
+    {
+        "id": 57,
+        "de": "Land",
+        "en": "land"
+    },
+    {
+        "id": 58,
+        "de": "Kopfhörer",
+        "en": "earphones"
+    },
+    {
+        "id": 59,
+        "de": "Und stell dir",
+        "en": "And guess What!"
+    },
+    {
+        "id": 60,
+        "de": "Ich werde",
+        "en": "I'm going to"
     }
 ]
