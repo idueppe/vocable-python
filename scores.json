@@ -1,46 +1,247 @@
 {
+    "1": {
         "score": 1,
+        "last_practiced": "04.01.2026 13:24:16",
+        "last_correct": "04.01.2026 13:24:16"
     },
+    "2": {
         "score": 1,
+        "last_practiced": "04.01.2026 13:24:16",
+        "last_correct": "04.01.2026 13:24:16"
     },
-    "6": {
+    "3": {
         "score": 0,
+        "last_practiced": null,
         "last_correct": null
     },
+    "4": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "5": {
         "score": 1,
+        "last_practiced": "04.01.2026 13:24:16",
+        "last_correct": "04.01.2026 13:24:16"
+    },
+    "6": {
+        "score": 1,
+        "last_practiced": "04.01.2026 13:44:42",
+        "last_correct": "04.01.2026 13:44:42"
+    },
+    "7": {
+        "score": 0,
+        "last_practiced": "04.01.2026 14:29:25",
+        "last_correct": null
+    },
+    "8": {
+        "score": 1,
+        "last_practiced": "04.01.2026 13:24:16",
+        "last_correct": "04.01.2026 13:24:16"
     },
     "9": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "10": {
+        "score": 1,
+        "last_practiced": "04.01.2026 13:44:42",
+        "last_correct": "04.01.2026 13:44:42"
     },
     "11": {
         "score": 1,
+        "last_practiced": "04.01.2026 13:44:42",
+        "last_correct": "04.01.2026 13:44:42"
     },
+    "12": {
         "score": 1,
+        "last_practiced": "04.01.2026 13:24:16",
+        "last_correct": "04.01.2026 13:24:16"
     },
-    },
+    "13": {
         "score": 1,
+        "last_practiced": "04.01.2026 13:44:42",
+        "last_correct": "04.01.2026 13:44:42"
+    },
+    "14": {
+        "score": 1,
+        "last_practiced": "04.01.2026 13:44:42",
+        "last_correct": "04.01.2026 13:44:42"
+    },
+    "15": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "16": {
+        "score": 1,
+        "last_practiced": "04.01.2026 13:44:42",
+        "last_correct": "04.01.2026 13:44:42"
+    },
+    "17": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
     },
     "18": {
+        "score": 1,
+        "last_practiced": "04.01.2026 13:44:42",
+        "last_correct": "04.01.2026 13:44:42"
     },
     "19": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
     },
     "20": {
         "score": 0,
+        "last_practiced": null,
         "last_correct": null
     },
     "21": {
-        "score": 0,
-        "last_correct": null
+        "score": 1,
+        "last_practiced": "04.01.2026 13:24:16",
+        "last_correct": "04.01.2026 13:24:16"
     },
     "22": {
+        "score": 1,
+        "last_practiced": "04.01.2026 13:44:42",
+        "last_correct": "04.01.2026 13:44:42"
     },
     "23": {
-    },
-    "24": {
-    },
-    "25": {
         "score": 0,
+        "last_practiced": null,
         "last_correct": null
     },
+    "24": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "25": {
+        "score": 1,
+        "last_practiced": "04.01.2026 13:24:16",
+        "last_correct": "04.01.2026 13:24:16"
+    },
     "26": {
+        "score": 1,
+        "last_practiced": "04.01.2026 13:24:16",
+        "last_correct": "04.01.2026 13:24:16"
+    },
+    "27": {
+        "score": 1,
+        "last_practiced": "04.01.2026 14:18:54",
+        "last_correct": "04.01.2026 14:18:54"
+    },
+    "28": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "29": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "30": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "31": {
+        "score": 1,
+        "last_practiced": "04.01.2026 14:18:54",
+        "last_correct": "04.01.2026 14:18:54"
+    },
+    "32": {
+        "score": 1,
+        "last_practiced": "04.01.2026 13:44:42",
+        "last_correct": "04.01.2026 13:44:42"
+    },
+    "33": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "34": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "35": {
+        "score": 1,
+        "last_practiced": "04.01.2026 14:18:54",
+        "last_correct": "04.01.2026 14:18:54"
+    },
+    "36": {
+        "score": 1,
+        "last_practiced": "04.01.2026 14:18:54",
+        "last_correct": "04.01.2026 14:18:54"
+    },
+    "37": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "38": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "39": {
+        "score": 1,
+        "last_practiced": "04.01.2026 14:18:54",
+        "last_correct": "04.01.2026 14:18:54"
+    },
+    "40": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "41": {
+        "score": 0,
+        "last_practiced": "04.01.2026 14:18:54",
+        "last_correct": null
+    },
+    "42": {
+        "score": 1,
+        "last_practiced": "04.01.2026 14:18:54",
+        "last_correct": "04.01.2026 14:18:54"
+    },
+    "43": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "44": {
+        "score": 1,
+        "last_practiced": "04.01.2026 14:29:57",
+        "last_correct": "04.01.2026 14:29:57"
+    },
+    "45": {
+        "score": 1,
+        "last_practiced": "04.01.2026 14:18:54",
+        "last_correct": "04.01.2026 14:18:54"
+    },
+    "46": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "47": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "48": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
+    },
+    "49": {
+        "score": 0,
+        "last_practiced": null,
+        "last_correct": null
     }
 }

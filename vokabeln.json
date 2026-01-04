@@ -128,5 +128,120 @@
         "id": 26,
         "de": "Erinnerung",
         "en": "memory"
+    },
+    {
+        "id": 27,
+        "de": "sich auf etwas freuen",
+        "en": "to look forward to"
+    },
+    {
+        "id": 28,
+        "de": "träne",
+        "en": "tear"
+    },
+    {
+        "id": 29,
+        "de": "konnte",
+        "en": "could"
+    },
+    {
+        "id": 30,
+        "de": "unglücklich",
+        "en": "unhappy"
+    },
+    {
+        "id": 31,
+        "de": "Notizen machen",
+        "en": "to make notes"
+    },
+    {
+        "id": 32,
+        "de": "Spickzettel, Merkzettel",
+        "en": "crib sheet"
+    },
+    {
+        "id": 33,
+        "de": "Jacke",
+        "en": "jacket"
+    },
+    {
+        "id": 34,
+        "de": "Tasche",
+        "en": "pocket"
+    },
+    {
+        "id": 35,
+        "de": "Mülleimer, Abfalleimer",
+        "en": "litter bin"
+    },
+    {
+        "id": 36,
+        "de": "hörte nicht auf",
+        "en": "didn't stop"
+    },
+    {
+        "id": 37,
+        "de": "ziehen",
+        "en": "pull"
+    },
+    {
+        "id": 38,
+        "de": "Glück",
+        "en": "to be lucky"
+    },
+    {
+        "id": 39,
+        "de": "beißen",
+        "en": "to bite"
+    },
+    {
+        "id": 40,
+        "de": "jn.umarmen",
+        "en": "to give a hug"
+    },
+    {
+        "id": 41,
+        "de": "meine, sagen wollen",
+        "en": "to mean"
+    },
+    {
+        "id": 42,
+        "de": "gelangweilt sein, sich langweilen",
+        "en": "to be/feel bored"
+    },
+    {
+        "id": 43,
+        "de": "genau wie",
+        "en": "just like"
+    },
+    {
+        "id": 44,
+        "de": "Trimester",
+        "en": "term"
+    },
+    {
+        "id": 45,
+        "de": "weitergehen",
+        "en": "walk on"
+    },
+    {
+        "id": 46,
+        "de": "Internat",
+        "en": "boarding school"
+    },
+    {
+        "id": 47,
+        "de": "schokiert, entsetzt",
+        "en": "shocked"
+    },
+    {
+        "id": 48,
+        "de": "Außen, im Freien",
+        "en": "outdoor"
+    },
+    {
+        "id": 49,
+        "de": "klettern",
+        "en": "to climb"
     }
 ]
