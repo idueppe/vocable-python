@@ -1,0 +1,9 @@
+LICENSE
+README.md
+pyproject.toml
+vokabeltrainer.py
+vokabeltrainer.egg-info/PKG-INFO
+vokabeltrainer.egg-info/SOURCES.txt
+vokabeltrainer.egg-info/dependency_links.txt
+vokabeltrainer.egg-info/entry_points.txt
+vokabeltrainer.egg-info/top_level.txt

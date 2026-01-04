@@ -1,0 +1,80 @@
+# Vokabeltrainer
+
+A simple command-line vocabulary trainer for learning German-English vocabulary pairs through interactive quizzes.
+
+## Features
+
+- **Add Vocabulary**: Add German-English word pairs with automatic ID assignment
+- **Interactive Quizzes**: Practice vocabulary in both directions (German→English and English→German)
+- **Score Tracking**: Track your learning progress with scores that increment on correct answers
+- **Practice History**: See when you last practiced each vocabulary item and when you got it correct
+- **View All Vocabulary**: Display all stored vocabulary with their current scores and practice timestamps
+
+## Requirements
+
+- Python 3.7+
+
+## Installation
+
+**Option 1: Install as a package (recommended)**
+
+```bash
+# Install in development mode
+pip install -e .
+
+# Run from anywhere
+vokabeltrainer
+```
+
+**Option 2: Run directly**
+
+```bash
+python3 vokabeltrainer.py
+```
+
+## Usage
+
+### Menu Options
+
+1. **Vokabeln hinzufügen** (Add vocabulary): Enter German and English translations
+2. **Quiz starten** (Start quiz): Random vocabulary in a random direction
+3. **Alle Vokabeln anzeigen** (Show all vocabulary): View all entries with scores and timestamps
+4. **Beenden** (Exit): Exit the application
+
+### Quiz Mode
+
+The quiz randomly selects:
+- A vocabulary item from your collection
+- A translation direction (German→English or English→German)
+
+Answer correctly to increase your score for that vocabulary item. The application tracks:
+- Total score per vocabulary item
+- Last practice timestamp
+- Last correct answer timestamp
+
+## Data Storage
+
+The application stores data in two JSON files:
+
+- `vokabeln.json`: Vocabulary entries (German-English pairs with IDs)
+- `scores.json`: Learning progress (scores and timestamps per vocabulary ID)
+
+Both files are created automatically on first use.
+
+## Example
+
+```
+----- Vokabeltrainer -----
+1) Vokabeln hinzufügen
+2) Quiz starten
+3) Alle Vokabeln anzeigen
+4) beenden
+Auswahl: 2
+
+Was heißt 'dog' auf Deutsch? Hund
+✓ Richtig!
+```
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
