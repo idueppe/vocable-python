@@ -31,7 +31,7 @@
     },
     {
         "id": 7,
-        "de": "Vor,außerhalb",
+        "de": "vor, außerhalb",
         "en": "outside"
     },
     {
@@ -231,7 +231,7 @@
     },
     {
         "id": 47,
-        "de": "schokiert, entsetzt",
+        "de": "schockiert, entsetzt",
         "en": "shocked"
     },
     {
@@ -246,17 +246,17 @@
     },
     {
         "id": 50,
-        "de": "bei Papap",
+        "de": "bei Papa",
         "en": "at Dad's"
     },
     {
         "id": 51,
         "de": "Wohnung",
-        "en": "arpartment"
+        "en": "apartment"
     },
     {
         "id": 52,
-        "de": "Bildschrim",
+        "de": "Bildschirm",
         "en": "screen"
     },
     {
@@ -297,7 +297,7 @@
     {
         "id": 60,
         "de": "Ich werde",
-        "en": "i'm going to"
+        "en": "I'm going to"
     },
     {
         "id": 61,
