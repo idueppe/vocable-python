@@ -90,6 +90,130 @@ def show_vocables(vocables, scores):
     print()
 
 
+def calculate_statistics():
+    """
+    Calculate vocabulary statistics grouped by score ranges.
+
+    Returns:
+        Dictionary with total count and category breakdown with counts and percentages
+    """
+    vocables = load_vocables()
+    scores = load_scores()
+
+    total = len(vocables)
+
+    # Initialize counters for each category
+    categories = {
+        "unpracticed": 0,    # score = 0
+        "beginner": 0,       # 01-09
+        "learning": 0,       # 10-19
+        "advanced": 0,       # 20-29
+        "good": 0,           # 30-39
+        "master": 0          # 40+
+    }
+
+    # Count vocables in each category
+    for vocable in vocables:
+        vocable_id = str(vocable["id"])
+        score_data = scores.get(vocable_id, {"score": 0})
+        score = score_data.get("score", 0)
+
+        if score == 0:
+            categories["unpracticed"] += 1
+        elif 1 <= score <= 9:
+            categories["beginner"] += 1
+        elif 10 <= score <= 19:
+            categories["learning"] += 1
+        elif 20 <= score <= 29:
+            categories["advanced"] += 1
+        elif 30 <= score <= 39:
+            categories["good"] += 1
+        else:  # score > 40
+            categories["master"] += 1
+
+    # Calculate percentages
+    stats = {
+        "total": total,
+        "categories": {}
+    }
+
+    for key, count in categories.items():
+        percentage = round((count / total * 100)) if total > 0 else 0
+        stats["categories"][key] = {
+            "count": count,
+            "percentage": percentage
+        }
+
+    return stats
+
+
+def display_statistics_ascii(stats):
+    """
+    Display vocabulary statistics as ASCII art with progress bars.
+
+    Args:
+        stats: Dictionary with total and categories (from calculate_statistics())
+    """
+    total = stats["total"]
+
+    # Handle empty database
+    if total == 0:
+        print("╔════════════════════════════════════════╗")
+        print("║     Keine Vokabeln vorhanden          ║")
+        print("╚════════════════════════════════════════╝")
+        print()
+        return
+
+    # Find the maximum count for scaling bars
+    max_count = max(cat["count"] for cat in stats["categories"].values())
+    bar_width = 10  # Number of characters for full bar
+
+    # Category labels in German
+    labels = {
+        "unpracticed": "Nicht geübt (0):",
+        "beginner": "Anfänger (01-09):",
+        "learning": "Lernend (10-19):",
+        "advanced": "Fortgeschritten (20-29):",
+        "good": "Gut (30-39):",
+        "master": "Meister (40+):"
+    }
+
+    # Print header
+    print()
+    print("╔════════════════════════════════════════════════════════╗")
+    title = f"Vokabeln Statistik (Total: {total})"
+    padding = (56 - len(title)) // 2
+    print(f"║{' ' * padding}{title}{' ' * (56 - len(title) - padding)}║")
+    print("╠════════════════════════════════════════════════════════╣")
+
+    # Print each category
+    category_order = ["unpracticed", "beginner", "learning", "advanced", "good", "master"]
+    for key in category_order:
+        cat_data = stats["categories"][key]
+        count = cat_data["count"]
+        percentage = cat_data["percentage"]
+
+        # Calculate bar length (scale to max_count)
+        if max_count > 0:
+            filled = round((count / max_count) * bar_width)
+        else:
+            filled = 0
+        empty = bar_width - filled
+
+        # Create progress bar
+        bar = "█" * filled + "░" * empty
+
+        # Format label with padding
+        label = labels[key]
+
+        # Print the line with proper formatting
+        stats_str = f"{count:3d} ({percentage:3d}%)"
+        print(f"║ {label:26s} [{bar}] {stats_str:9s}     ║")
+
+    print("╚════════════════════════════════════════════════════════╝")
+    print()
+
+
 def select_vocables_by_priority(vocables, scores, count):
     """
     Select vocables prioritized by lowest score, oldest last_practiced, then random.
@@ -304,6 +428,10 @@ def menu():
     scores = load_scores()
 
     while True:
+        # Display statistics
+        stats = calculate_statistics()
+        display_statistics_ascii(stats)
+
         print("----- Vokabeltrainer -----")
         print("1) Vokabeln hinzufügen")
         print("2) Quiz starten")
