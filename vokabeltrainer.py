@@ -217,9 +217,9 @@ def display_statistics_ascii(stats):
     total_score = stats.get("total_score", 0)
     max_score = stats.get("max_score", 0)
     min_score = stats.get("min_score", 0)
-    print(f"║ Gesamtpunktzahl: {total_score:>36d} ║")
-    print(f"║ Höchste Punktzahl: {max_score:>34d} ║")
-    print(f"║ Niedrigste Punktzahl: {min_score:>31d} ║")
+    print(f"║ Gesamtpunktzahl: {total_score:>36d}  ║")
+    print(f"║ Höchste Punktzahl: {max_score:>34d}  ║")
+    print(f"║ Niedrigste Punktzahl: {min_score:>31d}  ║")
     print("╠════════════════════════════════════════════════════════╣")
 
     # Print each category
