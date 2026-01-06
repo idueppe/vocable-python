@@ -124,11 +124,23 @@ def calculate_statistics():
         "master": 0          # 40+
     }
 
-    # Count vocables in each category
+    # Initialize score statistics
+    total_score = 0
+    max_score = None
+    min_score = None
+
+    # Count vocables in each category and calculate score statistics
     for vocable in vocables:
         vocable_id = str(vocable["id"])
         score_data = scores.get(vocable_id, {"score": 0})
         score = score_data.get("score", 0)
+
+        # Update score statistics
+        total_score += score
+        if max_score is None or score > max_score:
+            max_score = score
+        if min_score is None or score < min_score:
+            min_score = score
 
         if score == 0:
             categories["unpracticed"] += 1
@@ -146,6 +158,9 @@ def calculate_statistics():
     # Calculate percentages
     stats = {
         "total": total,
+        "total_score": total_score,
+        "max_score": max_score if max_score is not None else 0,
+        "min_score": min_score if min_score is not None else 0,
         "categories": {}
     }
 
@@ -196,6 +211,15 @@ def display_statistics_ascii(stats):
     title = f"Vokabeln Statistik (Total: {total})"
     padding = (56 - len(title)) // 2
     print(f"║{' ' * padding}{title}{' ' * (56 - len(title) - padding)}║")
+    print("╠════════════════════════════════════════════════════════╣")
+
+    # Display score summary statistics
+    total_score = stats.get("total_score", 0)
+    max_score = stats.get("max_score", 0)
+    min_score = stats.get("min_score", 0)
+    print(f"║ Gesamtpunktzahl: {total_score:>36d} ║")
+    print(f"║ Höchste Punktzahl: {max_score:>34d} ║")
+    print(f"║ Niedrigste Punktzahl: {min_score:>31d} ║")
     print("╠════════════════════════════════════════════════════════╣")
 
     # Print each category
