@@ -352,7 +352,7 @@
     {
         "id": 71,
         "de": "Arbeitsblatt",
-        "en": "Worksheet"
+        "en": "worksheet"
     },
     {
         "id": 72,
@@ -546,7 +546,7 @@
     },
     {
         "id": 110,
-        "de": "Rad Fahren",
+        "de": "Rad fahren",
         "en": "to ride"
     },
     {
@@ -562,7 +562,7 @@
     {
         "id": 113,
         "de": "verkauft",
-        "en": "to sold"
+        "en": "sold"
     },
     {
         "id": 114,
@@ -612,6 +612,6 @@
     {
         "id": 123,
         "de": "bestellen",
-        "en": "order"
+        "en": "to order"
     }
 ]
