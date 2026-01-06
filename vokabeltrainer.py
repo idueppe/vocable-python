@@ -1,65 +1,18 @@
-import json
-import random
-import os
-from datetime import datetime
+"""CLI interface for the vocabulary trainer."""
 
-FILE_VOCABLES = "vokabeln.json"
-FILE_SCORES = "scores.json"
-FILE_SESSIONS = "sessions.json"
-
-
-def load_vocables():
-    if not os.path.exists(FILE_VOCABLES):
-        return []
-    with open(FILE_VOCABLES, "r", encoding="utf-8") as f:
-        return json.load(f)
+from vocable_core import (
+    VocableManager,
+    QuizSession,
+    StatisticsManager,
+    DataManager
+)
 
 
-def save_vocables(vokabeln):
-    with open(FILE_VOCABLES, "w", encoding="utf-8") as f:
-        json.dump(vokabeln, f, ensure_ascii=False, indent=4)
-
-
-def load_scores():
-    if not os.path.exists(FILE_SCORES):
-        return {}
-    with open(FILE_SCORES, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def save_scores(scores):
-    with open(FILE_SCORES, "w", encoding="utf-8") as f:
-        json.dump(scores, f, ensure_ascii=False, indent=4)
-
-
-def load_sessions():
-    if not os.path.exists(FILE_SESSIONS):
-        return []
-    with open(FILE_SESSIONS, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def save_sessions(sessions):
-    with open(FILE_SESSIONS, "w", encoding="utf-8") as f:
-        json.dump(sessions, f, ensure_ascii=False, indent=4)
-
-
-def now():
-    return datetime.now().strftime("%d.%m.%Y %H:%M:%S")
-
-
-def init_scores(scores, vocable_id):
-    """If scores is empty, initialize it with the current date and time."""
-    if str(vocable_id) not in scores:
-        scores[str(vocable_id)] = {
-            "score": 0,
-            "last_practiced": None,
-            "last_correct": None
-        }
-
-
-def add_vocables(vocables, scores):
+def add_vocables():
+    """CLI interface for adding vocabulary."""
     print("Vokabeln hinzufügen (leere Eingabe bei 'english' zum Beenden)\n")
+
+    vocab_mgr = VocableManager()
 
     while True:
         english = input("english: ").strip()
@@ -74,30 +27,21 @@ def add_vocables(vocables, scores):
             print("Vokabeln hinzufügen beendet.\n")
             break
 
-        next_id = 1 if not vocables else max(v["id"] for v in vocables) + 1
-
-        vocables.append({
-            "id": next_id,
-            "de": german,
-            "en": english
-        })
-
-        init_scores(scores, next_id)
-
-        save_vocables(vocables)
-        save_scores(scores)
-
+        vocab_mgr.add_vocable(german, english)
         print("✓ Vokabeln hinzugefügt!\n")
 
 
-def show_vocables(vocables, scores):
+def show_vocables():
+    """CLI interface for displaying all vocabulary."""
+    stats_mgr = StatisticsManager()
+    vocables = stats_mgr.get_vocables_with_scores()
+
     for v in vocables:
-        s = scores.get(str(v["id"]), {})
         print(
             f"{v['de']} – {v['en']} "
-            f"| Score: {s.get('score', 0)} "
-            f"| Geübt: {s.get('last_practiced')} "
-            f"| Richtig: {s.get('last_correct')}"
+            f"| Score: {v.get('score', 0)} "
+            f"| Geübt: {v.get('last_practiced')} "
+            f"| Richtig: {v.get('last_correct')}"
         )
     print()
 
@@ -109,54 +53,8 @@ def calculate_statistics():
     Returns:
         Dictionary with total count and category breakdown with counts and percentages
     """
-    vocables = load_vocables()
-    scores = load_scores()
-
-    total = len(vocables)
-
-    # Initialize counters for each category
-    categories = {
-        "unpracticed": 0,    # score = 0
-        "beginner": 0,       # 01-09
-        "learning": 0,       # 10-19
-        "advanced": 0,       # 20-29
-        "good": 0,           # 30-39
-        "master": 0          # 40+
-    }
-
-    # Count vocables in each category
-    for vocable in vocables:
-        vocable_id = str(vocable["id"])
-        score_data = scores.get(vocable_id, {"score": 0})
-        score = score_data.get("score", 0)
-
-        if score == 0:
-            categories["unpracticed"] += 1
-        elif 1 <= score <= 9:
-            categories["beginner"] += 1
-        elif 10 <= score <= 19:
-            categories["learning"] += 1
-        elif 20 <= score <= 29:
-            categories["advanced"] += 1
-        elif 30 <= score <= 39:
-            categories["good"] += 1
-        else:  # score > 40
-            categories["master"] += 1
-
-    # Calculate percentages
-    stats = {
-        "total": total,
-        "categories": {}
-    }
-
-    for key, count in categories.items():
-        percentage = round((count / total * 100)) if total > 0 else 0
-        stats["categories"][key] = {
-            "count": count,
-            "percentage": percentage
-        }
-
-    return stats
+    stats_mgr = StatisticsManager()
+    return stats_mgr.get_statistics()
 
 
 def display_statistics_ascii(stats):
@@ -226,132 +124,6 @@ def display_statistics_ascii(stats):
     print()
 
 
-def select_vocables_by_priority(vocables, scores, count):
-    """
-    Select vocables prioritized by lowest score, oldest last_practiced, then random.
-
-    Args:
-        vocables: List of all vocabulary items
-        scores: Dictionary of scores keyed by vocable ID
-        count: Number of vocables to select
-
-    Returns:
-        List of selected vocables ordered by priority
-    """
-    priority_list = []
-
-    for vocable in vocables:
-        vocable_id = str(vocable["id"])
-        init_scores(scores, vocable_id)
-        score_data = scores[vocable_id]
-
-        score = score_data["score"]
-        last_practiced = score_data["last_practiced"]
-
-        # Convert to sortable timestamp
-        if last_practiced is None:
-            ts = datetime.max  # Never practiced = lowest priority
-        else:
-            ts = datetime.strptime(last_practiced, "%d.%m.%Y %H:%M:%S")
-
-        # Create priority tuple: lower score = higher priority, older date = higher priority
-        priority_tuple = (score, ts, random.random(), vocable)
-        priority_list.append(priority_tuple)
-
-    # Sort by priority (ascending: lowest score first, oldest practice first)
-    priority_list.sort()
-
-    # Select the requested number of vocables (or all if fewer available)
-    selected_count = min(count, len(priority_list))
-    selected = [item[3] for item in priority_list[:selected_count]]  # Extract vocable from tuple
-
-    return selected
-
-
-def run_quiz_round(vocables, scores, selected_vocables):
-    """
-    Run a complete quiz round with multiple vocables.
-
-    Args:
-        vocables: List of all vocabulary items (for reference)
-        scores: Dictionary to update with results
-        selected_vocables: List of vocables to quiz (pre-sorted by priority)
-
-    Returns:
-        Dictionary with quiz results including total, correct count, and detailed results
-    """
-    results = {
-        "total": 0,
-        "correct": 0,
-        "results": []
-    }
-
-    total_questions = len(selected_vocables)
-
-    for idx, vocable in enumerate(selected_vocables, 1):
-        vocable_id = vocable["id"]
-        direction = random.choice(["de_en", "en_de"])
-
-        print(f"\nFrage {idx}/{total_questions}")
-
-        if direction == "de_en":
-            response = input(f"Was heißt '{vocable['de']}' auf Englisch? ").strip()
-            correct_answer = vocable["en"]
-        else:
-            response = input(f"Was heißt '{vocable['en']}' auf Deutsch? ").strip()
-            correct_answer = vocable["de"]
-
-        was_correct = (response == correct_answer)
-
-        # Store detailed result
-        result = {
-            "vocable_id": vocable_id,
-            "german": vocable["de"],
-            "english": vocable["en"],
-            "direction": direction,
-            "user_answer": response,
-            "correct_answer": correct_answer,
-            "was_correct": was_correct
-        }
-        results["results"].append(result)
-
-        # Update counters
-        results["total"] += 1
-        if was_correct:
-            results["correct"] += 1
-            print("✓ Richtig!")
-        else:
-            print(f"✗ Falsch! Richtige Antwort: {correct_answer}")
-
-    return results
-
-
-def update_scores_from_results(scores, results):
-    """
-    Update scores and timestamps based on quiz round results.
-
-    Args:
-        scores: Current scores dictionary
-        results: Results from run_quiz_round()
-
-    Returns:
-        Updated scores dictionary
-    """
-    current_time = now()
-
-    for result in results["results"]:
-        vocable_id = str(result["vocable_id"])
-        init_scores(scores, vocable_id)
-
-        # Update last_practiced for all vocables
-        scores[vocable_id]["last_practiced"] = current_time
-
-        # If correct, increment score and update last_correct
-        if result["was_correct"]:
-            scores[vocable_id]["score"] += 1
-            scores[vocable_id]["last_correct"] = current_time
-
-    return scores
 
 
 def display_quiz_results(results):
@@ -385,8 +157,11 @@ def display_quiz_results(results):
         print()
 
 
-def quiz(vocables, scores):
-    """Run a prioritized quiz round with multiple vocables."""
+def quiz():
+    """CLI interface for running a quiz."""
+    vocab_mgr = VocableManager()
+    vocables = vocab_mgr.get_all_vocables()
+
     if not vocables:
         print("Keine Vokabeln vorhanden.\n")
         return
@@ -408,37 +183,37 @@ def quiz(vocables, scores):
         print(f"Es sind nur {available} Vokabeln vorhanden. Alle werden geübt.\n")
         count = available
 
-    # Select vocables by priority
-    selected_vocables = select_vocables_by_priority(vocables, scores, count)
+    # Create quiz session
+    quiz_session = QuizSession(count)
 
-    # Run the quiz round
-    results = run_quiz_round(vocables, scores, selected_vocables)
+    # Run through all questions
+    while not quiz_session.is_complete():
+        question = quiz_session.get_current_question()
 
-    # Update scores based on results
-    update_scores_from_results(scores, results)
+        print(f"\nFrage {question['index'] + 1}/{question['total']}")
 
-    # Save updated scores
-    save_scores(scores)
+        if question["direction"] == "de_en":
+            response = input(f"Was heißt '{question['german']}' auf Englisch? ").strip()
+        else:
+            response = input(f"Was heißt '{question['english']}' auf Deutsch? ").strip()
 
-    # Save session data
-    sessions = load_sessions()
-    session = {
-        "timestamp": now(),
-        "total": results["total"],
-        "correct": results["correct"],
-        "results": results["results"]
-    }
-    sessions.append(session)
-    save_sessions(sessions)
+        feedback = quiz_session.submit_answer(response)
 
-    # Display detailed results
+        if feedback["was_correct"]:
+            print("✓ Richtig!")
+        else:
+            print(f"✗ Falsch! Richtige Antwort: {feedback['correct_answer']}")
+
+        quiz_session.move_next()
+
+    # Save session and display results
+    quiz_session.save_session()
+    results = quiz_session.get_results()
     display_quiz_results(results)
 
 
 def menu():
-    vocables = load_vocables()
-    scores = load_scores()
-
+    """Main CLI menu loop."""
     while True:
         # Display statistics
         stats = calculate_statistics()
@@ -453,11 +228,11 @@ def menu():
         auswahl = input("Auswahl: ").strip()
 
         if auswahl == "1":
-            add_vocables(vocables, scores)
+            add_vocables()
         elif auswahl == "2":
-            quiz(vocables, scores)
+            quiz()
         elif auswahl == "3":
-            show_vocables(vocables, scores)
+            show_vocables()
         elif auswahl == "4":
             print("Bis Bald!")
             break

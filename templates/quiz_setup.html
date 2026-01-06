@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz starten - Vokabeltrainer{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-lg shadow p-6 md:p-8">
+        <h1 class="text-2xl md:text-3xl font-bold mb-6">Quiz starten</h1>
+
+        {% if total_vocables == 0 %}
+            <div class="text-center py-8">
+                <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <p class="mt-4 text-lg font-medium text-gray-900">Keine Vokabeln vorhanden</p>
+                <p class="mt-2 text-gray-500">Füge zuerst Vokabeln hinzu, um ein Quiz zu starten.</p>
+                <a href="{{ url_for('vocabulary_add') }}" class="mt-6 inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-medium">
+                    Vokabeln hinzufügen
+                </a>
+            </div>
+        {% else %}
+            <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p class="text-sm text-blue-800">
+                    <strong>{{ total_vocables }}</strong> Vokabeln verfügbar
+                </p>
+                <p class="text-sm text-blue-700 mt-1">
+                    Das Quiz wählt automatisch Vokabeln basierend auf deinem Lernfortschritt aus
+                    (niedrigster Score und älteste Übungszeit haben Priorität).
+                </p>
+            </div>
+
+            <form method="POST" action="{{ url_for('quiz_start') }}" class="space-y-6">
+                <div>
+                    <label for="count" class="block text-sm font-medium text-gray-700 mb-2">
+                        Wie viele Vokabeln möchtest du üben?
+                    </label>
+                    <input type="number"
+                           name="count"
+                           id="count"
+                           min="1"
+                           max="{{ total_vocables }}"
+                           value="10"
+                           required
+                           autofocus
+                           class="shadow appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 text-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <p class="mt-2 text-sm text-gray-500">
+                        Maximal {{ total_vocables }} Vokabeln
+                    </p>
+                </div>
+
+                <!-- Quick select buttons -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {% for quick_count in [5, 10, 20, 50] %}
+                        {% if quick_count <= total_vocables %}
+                            <button type="button"
+                                    onclick="document.getElementById('count').value = {{ quick_count }}"
+                                    class="py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-100 text-sm font-medium text-gray-700 transition-colors">
+                                {{ quick_count }} Vokabeln
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                    <button type="button"
+                            onclick="document.getElementById('count').value = {{ total_vocables }}"
+                            class="py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-100 text-sm font-medium text-gray-700 transition-colors">
+                        Alle ({{ total_vocables }})
+                    </button>
+                </div>
+
+                <div class="flex items-center justify-between pt-4">
+                    <button type="submit"
+                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:shadow-outline transition-colors">
+                        Quiz starten
+                    </button>
+                    <a href="{{ url_for('index') }}" class="text-gray-600 hover:text-gray-800 font-medium">
+                        Abbrechen
+                    </a>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

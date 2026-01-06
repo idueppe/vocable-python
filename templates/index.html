@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Vokabeltrainer{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Statistics Card -->
+    <div class="lg:col-span-2 bg-white rounded-lg shadow p-6">
+        <h2 class="text-2xl font-bold mb-6">Statistik ({{ stats.total }} Vokabeln)</h2>
+
+        {% if stats.total == 0 %}
+            <div class="text-center py-12 text-gray-500">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <p class="mt-4 text-lg font-medium">Keine Vokabeln vorhanden</p>
+                <p class="mt-2">Füge deine ersten Vokabeln hinzu, um zu beginnen!</p>
+                <a href="{{ url_for('vocabulary_add') }}" class="mt-4 inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                    Vokabeln hinzufügen
+                </a>
+            </div>
+        {% else %}
+            <!-- Category progress bars -->
+            <div class="space-y-4">
+                {% set categories = [
+                    ('unpracticed', 'Nicht geübt (0)', 'bg-gray-400'),
+                    ('beginner', 'Anfänger (01-09)', 'bg-red-500'),
+                    ('learning', 'Lernend (10-19)', 'bg-orange-500'),
+                    ('advanced', 'Fortgeschritten (20-29)', 'bg-yellow-500'),
+                    ('good', 'Gut (30-39)', 'bg-green-500'),
+                    ('master', 'Meister (40+)', 'bg-blue-600')
+                ] %}
+
+                {% for key, label, color in categories %}
+                    {% set data = stats.categories[key] %}
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">
+                                {{ label }}
+                            </span>
+                            <span class="text-sm font-medium text-gray-700">
+                                {{ data.count }} ({{ data.percentage }}%)
+                            </span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="{{ color }} h-3 rounded-full transition-all duration-300"
+                                 style="width: {{ data.percentage }}%"></div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Actions Card -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-2xl font-bold mb-6">Aktionen</h2>
+        <div class="space-y-4">
+            <a href="{{ url_for('vocabulary_add') }}"
+               class="block w-full bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 font-medium transition-colors">
+                Vokabeln hinzufügen
+            </a>
+            {% if stats.total > 0 %}
+                <a href="{{ url_for('quiz_setup') }}"
+                   class="block w-full bg-green-600 text-white text-center py-3 rounded-lg hover:bg-green-700 font-medium transition-colors">
+                    Quiz starten
+                </a>
+                <a href="{{ url_for('vocabulary_list') }}"
+                   class="block w-full bg-gray-600 text-white text-center py-3 rounded-lg hover:bg-gray-700 font-medium transition-colors">
+                    Alle Vokabeln
+                </a>
+            {% else %}
+                <button disabled
+                        class="block w-full bg-gray-300 text-gray-500 text-center py-3 rounded-lg cursor-not-allowed font-medium">
+                    Quiz starten
+                </button>
+                <p class="text-xs text-gray-500 text-center">Füge zuerst Vokabeln hinzu</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Recent Sessions -->
+{% if recent_sessions %}
+<div class="mt-8 bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-2xl font-bold">Letzte Quiz-Sessions</h2>
+    </div>
+
+    <!-- Desktop table -->
+    <div class="hidden md:block overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Datum
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Fragen
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Richtig
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Prozent
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for s in recent_sessions %}
+                    {% set percentage = ((s.correct / s.total * 100)|round|int) if s.total > 0 else 0 %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ s.timestamp }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ s.total }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ s.correct }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <span class="text-sm font-medium text-gray-900 mr-2">{{ percentage }}%</span>
+                                <div class="w-24 bg-gray-200 rounded-full h-2">
+                                    <div class="{% if percentage >= 80 %}bg-green-500{% elif percentage >= 60 %}bg-yellow-500{% else %}bg-red-500{% endif %} h-2 rounded-full"
+                                         style="width: {{ percentage }}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mobile cards -->
+    <div class="md:hidden divide-y divide-gray-200">
+        {% for s in recent_sessions %}
+            {% set percentage = ((s.correct / s.total * 100)|round|int) if s.total > 0 else 0 %}
+            <div class="px-6 py-4">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <div class="text-sm font-medium text-gray-900">{{ s.timestamp }}</div>
+                        <div class="text-sm text-gray-500">{{ s.correct }}/{{ s.total }} richtig</div>
+                    </div>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {% if percentage >= 80 %}bg-green-100 text-green-800{% elif percentage >= 60 %}bg-yellow-100 text-yellow-800{% else %}bg-red-100 text-red-800{% endif %}">
+                        {{ percentage }}%
+                    </span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="{% if percentage >= 80 %}bg-green-500{% elif percentage >= 60 %}bg-yellow-500{% else %}bg-red-500{% endif %} h-2 rounded-full"
+                         style="width: {{ percentage }}%"></div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="px-6 py-3 bg-gray-50 text-right">
+        <a href="{{ url_for('sessions') }}" class="text-sm font-medium text-blue-600 hover:text-blue-800">
+            Alle Sessions anzeigen →
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

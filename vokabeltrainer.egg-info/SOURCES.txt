@@ -1,9 +1,12 @@
 LICENSE
 README.md
+app.py
 pyproject.toml
+vocable_core.py
 vokabeltrainer.py
 vokabeltrainer.egg-info/PKG-INFO
 vokabeltrainer.egg-info/SOURCES.txt
 vokabeltrainer.egg-info/dependency_links.txt
 vokabeltrainer.egg-info/entry_points.txt
+vokabeltrainer.egg-info/requires.txt
 vokabeltrainer.egg-info/top_level.txt

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Session-Verlauf - Vokabeltrainer{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200">
+        <h1 class="text-2xl font-bold">Quiz-Verlauf</h1>
+        <p class="text-sm text-gray-600 mt-1">{{ sessions|length }} Sessions gesamt</p>
+    </div>
+
+    {% if sessions %}
+        <!-- Desktop table -->
+        <div class="hidden md:block overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Datum & Zeit
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Fragen
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Richtig
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Falsch
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Erfolgsquote
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for s in sessions %}
+                        {% set percentage = ((s.correct / s.total * 100)|round|int) if s.total > 0 else 0 %}
+                        {% set incorrect = s.total - s.correct %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {{ s.timestamp }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {{ s.total }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    {{ s.correct }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                {% if incorrect > 0 %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        {{ incorrect }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-gray-400">0</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <span class="text-sm font-medium text-gray-900 mr-3 w-12">{{ percentage }}%</span>
+                                    <div class="flex-1 bg-gray-200 rounded-full h-2.5 max-w-xs">
+                                        <div class="{% if percentage >= 80 %}bg-green-500{% elif percentage >= 60 %}bg-yellow-500{% else %}bg-red-500{% endif %} h-2.5 rounded-full"
+                                             style="width: {{ percentage }}%"></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile cards -->
+        <div class="md:hidden divide-y divide-gray-200">
+            {% for s in sessions %}
+                {% set percentage = ((s.correct / s.total * 100)|round|int) if s.total > 0 else 0 %}
+                {% set incorrect = s.total - s.correct %}
+                <div class="px-6 py-4">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900">{{ s.timestamp }}</div>
+                            <div class="text-sm text-gray-500 mt-1">
+                                {{ s.total }} Fragen
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {% if percentage >= 80 %}bg-green-100 text-green-800{% elif percentage >= 60 %}bg-yellow-100 text-yellow-800{% else %}bg-red-100 text-red-800{% endif %}">
+                            {{ percentage }}%
+                        </span>
+                    </div>
+
+                    <div class="flex gap-2 mb-3">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            ✓ {{ s.correct }}
+                        </span>
+                        {% if incorrect > 0 %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                ✗ {{ incorrect }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="{% if percentage >= 80 %}bg-green-500{% elif percentage >= 60 %}bg-yellow-500{% else %}bg-red-500{% endif %} h-2.5 rounded-full"
+                             style="width: {{ percentage }}%"></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="px-6 py-12 text-center">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            <p class="mt-4 text-lg font-medium text-gray-900">Keine Quiz-Sessions vorhanden</p>
+            <p class="mt-2 text-gray-500">Starte dein erstes Quiz, um deinen Fortschritt zu verfolgen!</p>
+            <a href="{{ url_for('quiz_setup') }}" class="mt-6 inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-medium">
+                Quiz starten
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{% if sessions %}
+    <div class="mt-6 text-center">
+        <a href="{{ url_for('index') }}" class="text-blue-600 hover:text-blue-800 font-medium">
+            ← Zurück zum Dashboard
+        </a>
+    </div>
+{% endif %}
+{% endblock %}

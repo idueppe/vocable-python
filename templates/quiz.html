@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz - Vokabeltrainer{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <!-- Progress Bar -->
+    <div class="mb-8">
+        <div class="flex justify-between text-sm text-gray-600 mb-2">
+            <span>Frage {{ question.index + 1 }}/{{ question.total }}</span>
+            <span>Richtig: {{ correct_so_far }}/{{ question.index }}</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-3">
+            {% set progress_percentage = ((question.index + 1) / question.total * 100)|round|int %}
+            <div class="bg-blue-600 h-3 rounded-full transition-all duration-300"
+                 style="width: {{ progress_percentage }}%"></div>
+        </div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="bg-white rounded-lg shadow-lg p-8 md:p-12">
+        <div class="text-center mb-8">
+            <div class="text-sm text-gray-500 mb-2 font-medium">
+                {% if question.direction == 'de_en' %}
+                    Deutsch → English
+                {% else %}
+                    English → Deutsch
+                {% endif %}
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 break-words">
+                {{ question.question }}
+            </h1>
+        </div>
+
+        <form method="POST" action="{{ url_for('quiz_answer') }}">
+            <input type="text"
+                   name="answer"
+                   autocomplete="off"
+                   autocapitalize="{% if question.direction == 'de_en' %}off{% else %}on{% endif %}"
+                   {% if question.direction == 'de_en' %}{% else %}lang="de"{% endif %}
+                   class="w-full text-center text-xl md:text-2xl py-4 px-6 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                   placeholder="Deine Antwort..."
+                   autofocus
+                   required>
+
+            <button type="submit"
+                    class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg text-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                Antworten
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Feedback Modal (shown after answering) -->
+{% if feedback %}
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+     onclick="if (event.target === this) document.getElementById('continue-form').submit()">
+    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 shadow-2xl"
+         onclick="event.stopPropagation()">
+        {% if feedback.was_correct %}
+            <div class="text-center text-green-600">
+                <svg class="w-20 h-20 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <h2 class="text-3xl font-bold mb-2">Richtig!</h2>
+                <p class="text-lg text-gray-700 mt-4">
+                    <span class="font-semibold">{{ feedback.correct_answer }}</span>
+                </p>
+            </div>
+        {% else %}
+            <div class="text-center text-red-600">
+                <svg class="w-20 h-20 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                </svg>
+                <h2 class="text-3xl font-bold mb-4">Falsch</h2>
+                <div class="text-gray-700 space-y-2">
+                    <p class="text-sm text-gray-500">Deine Antwort:</p>
+                    <p class="text-lg line-through">{{ feedback.user_answer }}</p>
+                    <p class="text-sm text-gray-500 mt-4">Richtige Antwort:</p>
+                    <p class="text-xl font-bold text-green-600">{{ feedback.correct_answer }}</p>
+                </div>
+            </div>
+        {% endif %}
+
+        <form method="GET" action="{{ url_for('quiz_question') }}" id="continue-form" class="mt-8">
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg text-lg transition-colors">
+                Weiter
+            </button>
+        </form>
+        <p class="text-center text-sm text-gray-500 mt-4">
+            Oder drücke <kbd class="px-2 py-1 bg-gray-100 border border-gray-300 rounded text-xs">Enter</kbd>
+        </p>
+    </div>
+</div>
+
+<!-- Auto-submit on Enter key -->
+<script>
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && document.getElementById('continue-form')) {
+            document.getElementById('continue-form').submit();
+        }
+    });
+</script>
+{% endif %}
+{% endblock %}

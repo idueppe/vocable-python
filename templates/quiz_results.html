@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Ergebnis - Vokabeltrainer{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Results Header -->
+    <div class="bg-white rounded-lg shadow-lg p-8 md:p-12 text-center mb-8">
+        {% set percentage = ((results.correct / results.total * 100)|round|int) if results.total > 0 else 0 %}
+
+        <div class="mb-6">
+            {% if percentage >= 90 %}
+                <div class="text-6xl mb-4">🏆</div>
+                <h1 class="text-3xl md:text-4xl font-bold text-green-600">Ausgezeichnet!</h1>
+            {% elif percentage >= 70 %}
+                <div class="text-6xl mb-4">⭐</div>
+                <h1 class="text-3xl md:text-4xl font-bold text-blue-600">Sehr gut!</h1>
+            {% elif percentage >= 50 %}
+                <div class="text-6xl mb-4">👍</div>
+                <h1 class="text-3xl md:text-4xl font-bold text-yellow-600">Gut gemacht!</h1>
+            {% else %}
+                <div class="text-6xl mb-4">💪</div>
+                <h1 class="text-3xl md:text-4xl font-bold text-orange-600">Weiter üben!</h1>
+            {% endif %}
+        </div>
+
+        <div class="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
+            {{ results.correct }}/{{ results.total }}
+        </div>
+
+        <div class="text-2xl text-gray-600 mb-6">
+            {{ percentage }}% richtig
+        </div>
+
+        <div class="w-full max-w-md mx-auto bg-gray-200 rounded-full h-4">
+            <div class="{% if percentage >= 80 %}bg-green-500{% elif percentage >= 60 %}bg-yellow-500{% else %}bg-red-500{% endif %} h-4 rounded-full transition-all duration-500"
+                 style="width: {{ percentage }}%"></div>
+        </div>
+    </div>
+
+    <!-- Correct Answers -->
+    {% set correct_results = results.results | selectattr('was_correct', 'equalto', true) | list %}
+    {% if correct_results %}
+        <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+            <div class="px-6 py-4 bg-green-50 border-b border-green-200">
+                <h2 class="text-xl font-bold text-green-800 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    Richtige Antworten ({{ correct_results|length }})
+                </h2>
+            </div>
+            <div class="divide-y divide-gray-200">
+                {% for r in correct_results %}
+                    <div class="px-6 py-4 hover:bg-gray-50">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                            <div>
+                                <span class="font-semibold text-gray-900">{{ r.german }}</span>
+                                <span class="text-gray-500 mx-2">–</span>
+                                <span class="text-gray-900">{{ r.english }}</span>
+                            </div>
+                            <span class="text-sm text-gray-500 mt-1 sm:mt-0">
+                                {% if r.direction == 'de_en' %}DE → EN{% else %}EN → DE{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Incorrect Answers -->
+    {% set incorrect_results = results.results | selectattr('was_correct', 'equalto', false) | list %}
+    {% if incorrect_results %}
+        <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+            <div class="px-6 py-4 bg-red-50 border-b border-red-200">
+                <h2 class="text-xl font-bold text-red-800 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                    Falsche Antworten ({{ incorrect_results|length }})
+                </h2>
+            </div>
+            <div class="divide-y divide-gray-200">
+                {% for r in incorrect_results %}
+                    <div class="px-6 py-4 hover:bg-gray-50">
+                        <div class="mb-2">
+                            <span class="font-semibold text-gray-900">{{ r.german }}</span>
+                            <span class="text-gray-500 mx-2">–</span>
+                            <span class="text-gray-900">{{ r.english }}</span>
+                            <span class="ml-2 text-sm text-gray-500">
+                                ({% if r.direction == 'de_en' %}DE → EN{% else %}EN → DE{% endif %})
+                            </span>
+                        </div>
+                        <div class="text-sm">
+                            <div class="text-red-600">
+                                <span class="font-medium">Deine Antwort:</span>
+                                <span class="line-through">{{ r.user_answer }}</span>
+                            </div>
+                            <div class="text-green-600 mt-1">
+                                <span class="font-medium">Richtig wäre:</span>
+                                <span class="font-semibold">{{ r.correct_answer }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="{{ url_for('quiz_setup') }}"
+           class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg text-center transition-colors">
+            Neues Quiz starten
+        </a>
+        <a href="{{ url_for('index') }}"
+           class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-center transition-colors">
+            Zum Dashboard
+        </a>
+        <a href="{{ url_for('sessions') }}"
+           class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg text-center transition-colors">
+            Alle Sessions
+        </a>
+    </div>
+</div>
+{% endblock %}

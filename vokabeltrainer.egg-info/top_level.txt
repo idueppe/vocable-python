@@ -1,1 +1,3 @@
+app
+vocable_core
 vokabeltrainer
