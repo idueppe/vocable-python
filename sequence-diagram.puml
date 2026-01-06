@@ -1,0 +1,128 @@
+@startuml Vokabeltrainer Sequence Diagram
+
+actor User
+participant "menu()" as Menu
+participant "quiz()" as Quiz
+participant "select_vocables_by_priority()" as Select
+participant "run_quiz_round()" as QuizRound
+participant "update_scores_from_results()" as UpdateScores
+participant "display_quiz_results()" as Display
+database "vokabeln.json" as VocablesDB
+database "scores.json" as ScoresDB
+database "sessions.json" as SessionsDB
+
+== Application Start ==
+User -> Menu: Start application
+activate Menu
+Menu -> VocablesDB: load_vocables()
+VocablesDB --> Menu: vocables[]
+Menu -> ScoresDB: load_scores()
+ScoresDB --> Menu: scores{}
+
+== Main Menu Loop ==
+Menu -> User: Display menu options\n1) Add vocables\n2) Start quiz\n3) Show all\n4) Exit
+
+== Quiz Flow ==
+User -> Menu: Select "2) Quiz starten"
+Menu -> Quiz: quiz(vocables, scores)
+activate Quiz
+
+Quiz -> User: "Wie viele Vokabeln möchtest du üben?"
+User -> Quiz: count (e.g., 5)
+
+Quiz -> Quiz: Validate input\n(positive integer)
+
+alt count > available vocables
+    Quiz -> User: "Es sind nur X Vokabeln vorhanden.\nAlle werden geübt."
+end
+
+Quiz -> Select: select_vocables_by_priority(vocables, scores, count)
+activate Select
+
+loop for each vocable
+    Select -> Select: init_scores(scores, vocable_id)
+    Select -> Select: Create priority_tuple\n(score, timestamp, random, vocable)
+end
+
+Select -> Select: Sort by priority\n(lowest score, oldest practice, random)
+Select -> Select: Take first 'count' vocables
+Select --> Quiz: selected_vocables[]
+deactivate Select
+
+Quiz -> QuizRound: run_quiz_round(vocables, scores, selected_vocables)
+activate QuizRound
+
+QuizRound -> QuizRound: Initialize results{}\n{total:0, correct:0, results:[]}
+
+loop for each vocable in selected_vocables
+    QuizRound -> QuizRound: Choose random direction\n(de_en or en_de)
+    QuizRound -> User: "Frage X/Y"\n"Was heißt 'word'?"
+    User -> QuizRound: answer
+
+    QuizRound -> QuizRound: Check if correct\n(answer == correct_answer)
+
+    alt answer correct
+        QuizRound -> User: "✓ Richtig!"
+        QuizRound -> QuizRound: Increment correct counter
+    else answer incorrect
+        QuizRound -> User: "✗ Falsch! Richtige Antwort: ..."
+    end
+
+    QuizRound -> QuizRound: Store result in results[]
+end
+
+QuizRound --> Quiz: results{total, correct, results[]}
+deactivate QuizRound
+
+Quiz -> UpdateScores: update_scores_from_results(scores, results)
+activate UpdateScores
+
+UpdateScores -> UpdateScores: Get current timestamp
+
+loop for each result in results[]
+    UpdateScores -> UpdateScores: init_scores(scores, vocable_id)
+    UpdateScores -> UpdateScores: Update last_practiced timestamp
+
+    alt result was_correct
+        UpdateScores -> UpdateScores: Increment score
+        UpdateScores -> UpdateScores: Update last_correct timestamp
+    end
+end
+
+UpdateScores --> Quiz: updated scores{}
+deactivate UpdateScores
+
+Quiz -> ScoresDB: save_scores(scores)
+ScoresDB --> Quiz: Success
+
+Quiz -> SessionsDB: load_sessions()
+SessionsDB --> Quiz: sessions[]
+
+Quiz -> Quiz: Create session object\n{timestamp, total, correct, results[]}
+Quiz -> Quiz: Append session to sessions[]
+
+Quiz -> SessionsDB: save_sessions(sessions)
+SessionsDB --> Quiz: Success
+
+Quiz -> Display: display_quiz_results(results)
+activate Display
+
+Display -> User: "==== Quiz abgeschlossen! ===="\n"Ergebnis: X/Y richtig"
+
+Display -> User: "✓ Richtige Antworten:"\n• List of correct vocables
+
+Display -> User: "✗ Falsche Antworten:"\n• Details with user answer\n• Correct answer
+
+deactivate Display
+
+Quiz --> Menu: Return
+deactivate Quiz
+
+Menu -> User: Display menu again
+
+== Exit ==
+User -> Menu: Select "4) beenden"
+Menu -> User: "Bis Bald!"
+deactivate Menu
+
+@enduml
